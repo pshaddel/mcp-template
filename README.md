@@ -6,13 +6,12 @@ A Model Context Protocol (MCP) service for querying PostgreSQL databases and gen
 
 This service provides a PostgreSQL database interface for Videri Digital Signage platform through the Model Context Protocol. It enables running SQL queries directly against the Videri database and exporting results to CSV files.
 
-
 ## 🛠️ Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/mcp-report-postgres.git
-cd mcp-report-postgres
+cd
 
 # Install dependencies
 npm install

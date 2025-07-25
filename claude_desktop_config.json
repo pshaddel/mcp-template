@@ -1,0 +1,12 @@
+{
+    "mcpServers": {
+        "weather-tool": {
+            "command": "node",
+            "args": [
+                "--watch",
+                "--env-file=/Users/pshaddel/Desktop/Projects/mcp-template/.env",
+                "/Users/pshaddel/Desktop/Projects/mcp-template/build/main.js"
+            ]
+        }
+    }
+}

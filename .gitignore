@@ -1,0 +1,9 @@
+node_modules
+build
+dist
+*.env
+*.xlsx
+*.csv
+tsconfig.tsbuildinfo
+data
+.DS_Store

@@ -55,12 +55,12 @@ export const weatherTool: Tool = {
 					},
 				],
 			};
-        } catch (error: unknown) {
+		} catch (error: unknown) {
 			return {
 				content: [
 					{
 						type: "text",
-                        text: `Failed to fetch weather data: ${(error as unknown as { message: string }).message}`,
+						text: `Failed to fetch weather data: ${(error as unknown as { message: string }).message}`,
 					},
 				],
 			};

@@ -1,8 +1,8 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
-import express from "express";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import express from "express";
+import { z } from "zod";
 import { weatherTool } from "./tools/weather.js";
 
 const args = process.argv.slice(2);
@@ -121,7 +121,7 @@ async function main() {
 			const transport = transportMap.get(sessionId);
 
 			console.log(
-				`message sessionId: \x1b[36m${sessionId}\x1b[0m - transport: \x1b[33m${!!transport ? "exists" : "none"}\x1b[0m`,
+				`message sessionId: \x1b[36m${sessionId}\x1b[0m - transport: \x1b[33m${transport ? "exists" : "none"}\x1b[0m`,
 				req.body,
 			);
 			if (transport) {

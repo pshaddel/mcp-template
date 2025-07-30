@@ -1,6 +1,6 @@
+import assert from "node:assert";
 import { describe, it } from "node:test";
 import { weatherTool } from "../tools/weather.js";
-import assert from "assert";
 
 describe("Weather Tool Tests", () => {
 	it("tool should have a truthy string as name", () => {

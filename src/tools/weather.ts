@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Tool } from "./tool.interface.js";
+import type { Tool } from "./tool.interface.js";
 
 const weatherToolArgValidator = {
 	latitude: z.string().describe("Latitude of the location, e.g., 47.8095"),
@@ -55,12 +55,12 @@ export const weatherTool: Tool = {
 					},
 				],
 			};
-		} catch (error: any) {
+        } catch (error: unknown) {
 			return {
 				content: [
 					{
 						type: "text",
-						text: `Failed to fetch weather data: ${error.message}`,
+                        text: `Failed to fetch weather data: ${(error as unknown as { message: string }).message}`,
 					},
 				],
 			};

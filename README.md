@@ -1,5 +1,10 @@
 # 🚀 MCP Template
 
+[![CI](https://github.com/pshaddel/mcp-template/actions/workflows/ci.yml/badge.svg)](https://github.com/pshaddel/mcp-template/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
+
 A Model Context Protocol (MCP) server template for Node.js with TypeScript support.
 
 ## 📋 Overview

@@ -105,13 +105,14 @@ npm run build
 ```
 3.Then restart Claude Desktop. and you should see the MCP server listed in the settings.
 
--- add a gif
+![ScreenRecording2025-07-30at15 24 49-ezgif com-crop](https://github.com/user-attachments/assets/1e87c54d-b16a-4933-a57f-f4c9744e6de4)
+
 
 ### VS Code Integration
 
 1. Enable MCP support in VS Code in settings.
 
--- picture
+<img width="1273" height="392" alt="Screenshot 2025-07-30 at 15 31 18" src="https://github.com/user-attachments/assets/7cb3ef50-329a-49d2-aaa3-3440fd9600d2" />
 
 2. Use it via VS Code by adding the following to your `.vscode/mcp.json` file:
 

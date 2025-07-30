@@ -1,9 +1,7 @@
-import z from "zod";
-
 export interface Tool<Args = any> {
-    tool_name: string;
-    description: string;
-    inputSchema: any;
-    outputSchema?: any;
-    function: (args: Args) => any;
-};
+	tool_name: string;
+	description: string;
+	inputSchema: any;
+	outputSchema?: any;
+	function: (args: Args) => any;
+}

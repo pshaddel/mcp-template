@@ -1,31 +1,32 @@
 {
-  "type": "module",
-  "bin": {
-    "main": "./build/main.js"
-  },
-  "scripts": {
-    "build": "tsc --project tsconfig.json",
-    "dev": "tsc-watch --onSuccess \"node --env-file=.env build/main.js\"",
-    "start:dev": "tsc-watch --onSuccess \"node --env-file .env build/main.js\"",
-    "start": "node --env-file .env build/main.js",
-    "test": "npm run build && node --test build/tests/**/*.test.js",
-    "test:watch": "tsc-watch --onSuccess \"node --test build/tests/**/*.test.js\""
-  },
-  "files": [
-    "build"
-  ],
-  "dependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.782.0",
-    "@modelcontextprotocol/sdk": "^1.17.0",
-    "express": "^5.1.0",
-    "zod": "^3.24.2"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.3",
-    "@types/json2csv": "^5.0.7",
-    "@types/node": "^22.14.0",
-    "@types/qs": "^6.9.18",
-    "tsc-watch": "^7.1.1",
-    "typescript": "^5.8.3"
-  }
+	"type": "module",
+	"bin": {
+		"main": "./build/main.js"
+	},
+	"scripts": {
+		"build": "tsc --project tsconfig.json",
+		"dev": "tsc-watch --onSuccess \"node --env-file=.env build/main.js\"",
+		"start:dev": "tsc-watch --onSuccess \"node --env-file .env build/main.js\"",
+		"start": "node --env-file .env build/main.js",
+		"test": "npm run build && node --test build/tests/**/*.test.js",
+		"test:watch": "tsc-watch --onSuccess \"node --test build/tests/**/*.test.js\""
+	},
+	"files": [
+		"build"
+	],
+	"dependencies": {
+		"@aws-sdk/client-cognito-identity-provider": "^3.782.0",
+		"@modelcontextprotocol/sdk": "^1.17.0",
+		"express": "^5.1.0",
+		"zod": "^3.24.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.1.3",
+		"@types/express": "^5.0.3",
+		"@types/json2csv": "^5.0.7",
+		"@types/node": "^22.14.0",
+		"@types/qs": "^6.9.18",
+		"tsc-watch": "^7.1.1",
+		"typescript": "^5.8.3"
+	}
 }

@@ -1,0 +1,14 @@
+{
+	"servers": {
+		"weather-mcp": {
+			"type": "stdio",
+			"command": "node",
+			"args": [
+				"--watch",
+				"--env-file=mcp-template/.env",
+				"mcp-template/build/main.js"
+			]
+		}
+	},
+	"inputs": []
+}

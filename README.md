@@ -103,8 +103,36 @@ npm run build
     }
 }
 ```
+3.Then restart Claude Desktop. and you should see the MCP server listed in the settings.
 
-3. Restart Claude Desktop to load the MCP server.
+-- add a gif
+
+### VS Code Integration
+
+1. Enable MCP support in VS Code in settings.
+
+-- picture
+
+2. Use it via VS Code by adding the following to your `.vscode/mcp.json` file:
+
+```json
+{
+    "servers": {
+        "mcp-template": {
+            "type": "stdio",
+            "command": "node",
+            "args": [
+                "--env-file=/path/to/your/project/.env",
+                "/path/to/your/project/build/main.js"
+            ]
+        }
+    },
+    "inputs": []
+}
+```
+
+3. Start using it in VS Code by running the MCP commands in Copilot Chat(In Agent mode).
+
 
 ### SSE Server Integration
 

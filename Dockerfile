@@ -26,6 +26,3 @@ ENV NODE_ENV=production
 
 # Start the application
 CMD ["node", "--env-file=.env", "build/main.js"]
-
-# docker build -t report-v3-mcp .
-# docker run -p 3000:3000 report-v3-mcp

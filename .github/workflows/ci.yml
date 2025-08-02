@@ -57,7 +57,7 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        slug: pshaddel/mcp-template
+        # slug: pshaddel/mcp-template
 
   lint-and-format:
     runs-on: ubuntu-latest

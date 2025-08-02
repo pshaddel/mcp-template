@@ -20,7 +20,9 @@ describe("Weather Tool Tests", () => {
 
 	it("should handle missing parameters", async () => {
 		const response = await weatherTool.function({});
-		assert.ok(response.content[0].text.includes("Failed to fetch weather data"));
+		assert.ok(
+			response.content[0].text.includes("Failed to fetch weather data"),
+		);
 	});
 
 	it("should handle invalid coordinates", async () => {
@@ -30,22 +32,25 @@ describe("Weather Tool Tests", () => {
 			start_date: "2025-01-01",
 			end_date: "2025-01-01",
 		});
-		assert.ok(response.content[0].text.includes("Failed to fetch weather data"));
+		assert.ok(
+			response.content[0].text.includes("Failed to fetch weather data"),
+		);
 	});
 
 	it("should fetch weather data with valid parameters", async () => {
 		// Mock successful fetch
 		const originalFetch = global.fetch;
-		global.fetch = async () => ({
-			ok: true,
-			json: async () => ({
-				daily: {
-					temperature_2m_max: [20.5],
-					temperature_2m_min: [10.2],
-					precipitation_sum: [0.0]
-				}
-			})
-		} as Response);
+		global.fetch = async () =>
+			({
+				ok: true,
+				json: async () => ({
+					daily: {
+						temperature_2m_max: [20.5],
+						temperature_2m_min: [10.2],
+						precipitation_sum: [0.0],
+					},
+				}),
+			}) as Response;
 
 		const response = await weatherTool.function({
 			latitude: "47.8095",
@@ -68,10 +73,11 @@ describe("Weather Tool Tests", () => {
 	it("should handle API response errors", async () => {
 		// Mock failed fetch
 		const originalFetch = global.fetch;
-		global.fetch = async () => ({
-			ok: false,
-			statusText: "Not Found"
-		} as Response);
+		global.fetch = async () =>
+			({
+				ok: false,
+				statusText: "Not Found",
+			}) as Response;
 
 		const response = await weatherTool.function({
 			latitude: "47.8095",
@@ -80,7 +86,11 @@ describe("Weather Tool Tests", () => {
 			end_date: "2025-01-01",
 		});
 
-		assert.ok(response.content[0].text.includes("Error fetching weather data: Not Found"));
+		assert.ok(
+			response.content[0].text.includes(
+				"Error fetching weather data: Not Found",
+			),
+		);
 
 		// Restore original fetch
 		global.fetch = originalFetch;

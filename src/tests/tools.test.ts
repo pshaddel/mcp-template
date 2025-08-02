@@ -10,15 +10,19 @@ describe("Tools Integration Tests", () => {
 	});
 
 	it("should have unique tool names", () => {
-		const names = tools.map(tool => tool.tool_name);
+		const names = tools.map((tool) => tool.tool_name);
 		const uniqueNames = new Set(names);
 		assert.strictEqual(names.length, uniqueNames.size);
 	});
 
 	it("should have valid tool structure for all tools", () => {
 		for (const tool of tools) {
-			assert.ok(typeof tool.tool_name === "string" && tool.tool_name.length > 0);
-			assert.ok(typeof tool.description === "string" && tool.description.length > 0);
+			assert.ok(
+				typeof tool.tool_name === "string" && tool.tool_name.length > 0,
+			);
+			assert.ok(
+				typeof tool.description === "string" && tool.description.length > 0,
+			);
 			assert.ok(typeof tool.inputSchema === "object");
 			assert.ok(typeof tool.function === "function");
 		}

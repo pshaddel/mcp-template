@@ -112,6 +112,28 @@ npm run build
 
 ![ScreenRecording2025-07-30at15 24 49-ezgif com-crop](https://github.com/user-attachments/assets/1e87c54d-b16a-4933-a57f-f4c9744e6de4)
 
+### n8n Integration
+0. Run the application in `sse` mode.(if locally, it would be `npm run dev` or `npm start` and the server will be available at `http://localhost:3000/sse`)
+If you are runniing n8n in a docker container, you cannot use `http:localhost:3000/sse` as the n8n container cannot access the host's localhost. Instead, you can use `http://host.docker.internal:3000/sse` to access the host's services from within the n8n container. or you can run the n8n container with the `--network="host"` option to share the host's network stack, allowing it to access services running on `localhost` directly.
+
+1. Run the n8n instance, if locally, use the following command:
+```bash
+docker run -it --rm \
+    -p 5678:5678 \
+    -v ~/.n8n:/home/node/.n8n \
+    n8nio/n8n
+```
+2. Open n8n in your browser at `http://localhost:5678`.
+
+3. Create a new workflow and add an AI Agent node.
+
+4. In Tools section, add a <b>MCP Client Tool</b> node.
+
+5. Configure the MCP Client Tool node with the following settings:
+    - **Server URL:** `http://host.docker.internal:3000/sse`
+    - **API Key:** Add a custom header `x-api-key` with your API key from the `.env` file.
+
+The Tools Should be available now.
 
 ### VS Code Integration
 
@@ -138,7 +160,6 @@ npm run build
 ```
 
 3. Start using it in VS Code by running the MCP commands in Copilot Chat(In Agent mode).
-
 
 ### SSE Server Integration
 

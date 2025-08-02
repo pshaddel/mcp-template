@@ -44,7 +44,8 @@ export const weatherTool: Tool = {
 		try {
 			const response = await fetch(apiUrl);
 			if (!response.ok) {
-				throw new Error(`Error fetching weather data: ${response.statusText}`);
+				const responseBody = await response.text();
+				throw new Error(`Error fetching weather data: ${responseBody} - Status: ${response.status}`);
 			}
 			const data = await response.json();
 			return {

@@ -76,7 +76,7 @@ async function main() {
 
 		const transportMap = new Map<string, SSEServerTransport>();
 
-		app.get("/health", (_req, res) => {
+		app.use("/health", (_req, res) => {
 			res.status(200).json({ status: "ok" });
 		});
 

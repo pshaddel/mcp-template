@@ -135,6 +135,9 @@ docker run -it --rm \
 
 The Tools Should be available now.
 
+![n8n-integration](https://github.com/user-attachments/assets/e78bdc37-0635-446e-be5b-b84855577f67)
+
+
 ### VS Code Integration
 
 1. Enable MCP support in VS Code in settings.

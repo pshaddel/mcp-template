@@ -8,6 +8,10 @@ coverage:
       default:
         target: 80%
 
+fixes:
+  - "build/::src/"  # Map build/ paths to src/ paths
 ignore:
   - "build/tests/**"
   - "**/*.test.js"
+  - "node_modules/**/*"
+  - "coverage/**/*"

@@ -1,6 +1,8 @@
 {
   "reporter": [
-    "lcov"
+    "lcov",
+    "text",
+    "html"
   ],
   "exclude": [
     "build/tests/**",
@@ -8,5 +10,8 @@
   ],
   "include": [
     "build/**/*.js"
-  ]
+  ],
+  "all": true,
+  "src": "src",
+  "reportsDir": "coverage"
 }

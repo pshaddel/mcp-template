@@ -1,5 +1,7 @@
 {
-  "reporter": ["text", "lcov", "html"],
+  "reporter": [
+    "lcov"
+  ],
   "exclude": [
     "build/tests/**",
     "**/*.test.js"

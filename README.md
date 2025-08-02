@@ -272,6 +272,7 @@ mcpServer.registerTool(myTool.tool_name, {
 | `npm run dev` | Run in development mode with hot reload |
 | `npm run start:dev` | Alternative development command |
 | `npm start` | Run the built server |
+| `npm run test:coverage` | Run tests with coverage report |
 
 ## 🐳 Docker Support
 
@@ -290,9 +291,11 @@ docker run -p 3000:3000 --env-file .env mcp-template
 Run tests to ensure everything works correctly:
 
 ```bash
-npm test
+npm test              # Run tests
+npm run test:coverage # Run tests with coverage
 # or
 pnpm test
+pnpm run test:coverage
 ```
 
 ## 🔧 Troubleshooting

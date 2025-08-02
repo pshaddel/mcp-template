@@ -50,6 +50,15 @@ jobs:
     - name: Run tests
       run: pnpm run test
 
+    - name: Test coverage
+      run: pnpm run test:coverage
+
+    - name: Upload results to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: pshaddel/mcp-template
+
   lint-and-format:
     runs-on: ubuntu-latest
 

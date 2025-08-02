@@ -54,9 +54,12 @@ jobs:
       run: pnpm run test:coverage
 
     - name: Upload results to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage/lcov.info
+        verbose: true # optional (default = false)
+        name: codecov-coverage # optional (default = codecov-coverage)
         # slug: pshaddel/mcp-template
 
   lint-and-format:

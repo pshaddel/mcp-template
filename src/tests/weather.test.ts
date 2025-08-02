@@ -76,7 +76,8 @@ describe("Weather Tool Tests", () => {
 		global.fetch = async () =>
 			({
 				ok: false,
-				statusText: "Not Found",
+				status: 404,
+				text: async () => "Not Found",
 			}) as Response;
 
 		const response = await weatherTool.function({
@@ -87,9 +88,7 @@ describe("Weather Tool Tests", () => {
 		});
 
 		assert.ok(
-			response.content[0].text.includes(
-				"Error fetching weather data: Not Found",
-			),
+			response.content[0].text.includes("Failed to fetch weather data"),
 		);
 
 		// Restore original fetch

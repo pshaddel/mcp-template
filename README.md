@@ -6,6 +6,8 @@
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
+<meta name="google-site-verification" content="TH8G_S7VXcPStsxDW5p5uLhvMOUW_onxvvz87LLF4Ck" />
+
 A Model Context Protocol (MCP) server template for Node.js with TypeScript support.
 
 ## 📋 Overview

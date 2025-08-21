@@ -119,6 +119,7 @@ async function main() {
 
 		app.listen(port, () => {
 			// check if the port is already in use
+			// biome-ignore lint/suspicious/noExplicitAny: off
 			app.on("error", (err: any) => {
 				if (err.code === "EADDRINUSE") {
 					console.error(

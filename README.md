@@ -91,7 +91,8 @@ npm start
 pnpm start
 ```
 
-## � MCP Inspector
+## <img width="25" height="25" alt="182288589" src="https://github.com/user-attachments/assets/0598f0e0-e32a-438a-a5a0-677f09986007" /> MCP Inspector
+
 
 The MCP Inspector is a powerful debugging tool that provides a web interface to test and interact with your MCP server tools during development.
 
@@ -137,7 +138,8 @@ When running your server in HTTP streams mode:
 
 ## �🔌 Integration
 
-### Claude Desktop Integration
+### <img width="24" height="24" alt="claude-color" src="https://github.com/user-attachments/assets/00a3e08f-64fc-4c35-9b8a-d880091c55c4" /> Claude Desktop Integration
+
 
 1. Build the project:
 ```bash
@@ -166,7 +168,7 @@ npm run build
 
 ![ScreenRecording2025-07-30at15 24 49-ezgif com-crop](https://github.com/user-attachments/assets/1e87c54d-b16a-4933-a57f-f4c9744e6de4)
 
-### n8n Integration
+### <img width="24" height="24" alt="n8n-color" src="https://github.com/user-attachments/assets/9b1fae49-e4fc-4ec2-a9a4-da0a1e9cf3ee" /> n8n Integration
 0. Run the application in `sse` or `http-streams` mode. If running locally, use `npm run dev` or `npm start`.
    - For SSE mode: server will be available at `http://localhost:3000/sse`
    - For HTTP streams mode: server will be available at `http://localhost:3000/mcp`

@@ -12,7 +12,7 @@ A Model Context Protocol (MCP) server template for Node.js with TypeScript suppo
 
 ## 📋 Overview
 
-This is a comprehensive MCP server template that provides a robust foundation for building Model Context Protocol servers. It supports both stdio and SSE (Server-Sent Events) transport modes, making it suitable for various integration scenarios. The template includes authentication, logging, and a sample weather tool to demonstrate the MCP tool implementation pattern.
+This is a comprehensive MCP server template that provides a robust foundation for building Model Context Protocol servers. It supports multiple transport modes: stdio, SSE (Server-Sent Events), and HTTP streams, making it suitable for various integration scenarios. The template includes authentication, logging, and a sample weather tool to demonstrate the MCP tool implementation pattern.
 
 ## � Prerequisites
 
@@ -48,9 +48,9 @@ Configure the following environment variables:
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| `MODE` | Transport mode: `stdio` or `sse` | `stdio` | Yes |
-| `API_KEYS` | Comma-separated list of allowed API keys (SSE mode only) | - | No (required for SSE) |
-| `APP_PORT` | Port for SSE server | `3000` | No |
+| `MODE` | Transport mode: `stdio`, `sse`, or `http-streams` | `stdio` | Yes |
+| `API_KEYS` | Comma-separated list of allowed API keys (SSE/HTTP streams mode only) | - | No (required for SSE/HTTP streams) |
+| `APP_PORT` | Port for SSE/HTTP streams server | `3000` | No |
 
 ### Example Configuration
 
@@ -62,6 +62,13 @@ MODE=stdio
 **For SSE mode (HTTP server):**
 ```env
 MODE=sse
+API_KEYS=your_api_key1,your_api_key2
+APP_PORT=3000
+```
+
+**For HTTP streams mode (HTTP server with streaming):**
+```env
+MODE=http-streams
 API_KEYS=your_api_key1,your_api_key2
 APP_PORT=3000
 ```
@@ -116,8 +123,11 @@ npm run build
 ![ScreenRecording2025-07-30at15 24 49-ezgif com-crop](https://github.com/user-attachments/assets/1e87c54d-b16a-4933-a57f-f4c9744e6de4)
 
 ### n8n Integration
-0. Run the application in `sse` mode.(if locally, it would be `npm run dev` or `npm start` and the server will be available at `http://localhost:3000/sse`)
-If you are runniing n8n in a docker container, you cannot use `http:localhost:3000/sse` as the n8n container cannot access the host's localhost. Instead, you can use `http://host.docker.internal:3000/sse` to access the host's services from within the n8n container. or you can run the n8n container with the `--network="host"` option to share the host's network stack, allowing it to access services running on `localhost` directly.
+0. Run the application in `sse` or `http-streams` mode. If running locally, use `npm run dev` or `npm start`.
+   - For SSE mode: server will be available at `http://localhost:3000/sse`
+   - For HTTP streams mode: server will be available at `http://localhost:3000/mcp`
+
+   If you are running n8n in a docker container, you cannot use `http://localhost:3000` as the n8n container cannot access the host's localhost. Instead, you can use `http://host.docker.internal:3000` to access the host's services from within the n8n container, or you can run the n8n container with the `--network="host"` option to share the host's network stack.
 
 1. Run the n8n instance, if locally, use the following command:
 ```bash
@@ -133,12 +143,49 @@ docker run -it --rm \
 4. In Tools section, add a <b>MCP Client Tool</b> node.
 
 5. Configure the MCP Client Tool node with the following settings:
-    - **Server URL:** `http://host.docker.internal:3000/sse`
+    - **Server URL:**
+      - For SSE mode: `http://host.docker.internal:3000/sse`
+      - For HTTP streams mode: `http://host.docker.internal:3000/mcp`
     - **API Key:** Add a custom header `x-api-key` with your API key from the `.env` file.
 
 The Tools Should be available now.
 
 ![n8n-integration](https://github.com/user-attachments/assets/e78bdc37-0635-446e-be5b-b84855577f67)
+
+### HTTP Streams Integration
+
+When running in HTTP streams mode, the server provides streamable HTTP endpoints for MCP communication with session management:
+
+**Base URL:** `http://localhost:3000` (or your configured port)
+
+**Endpoints:**
+- `POST /mcp` - Initialize session or send MCP messages
+- `GET /mcp` - Retrieve server-to-client notifications (requires session ID)
+- `DELETE /mcp` - Terminate MCP session
+- `GET /health` - Health check endpoint
+
+**Session Management:**
+HTTP streams mode uses session-based communication. Include the `mcp-session-id` header in requests after initialization:
+
+```bash
+# Initialize a new session
+curl -X POST \
+  -H "x-api-key: your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test-client","version":"1.0.0"}}}' \
+  http://localhost:3000/mcp
+
+# Use the returned session ID in subsequent requests
+curl -X POST \
+  -H "x-api-key: your_api_key" \
+  -H "mcp-session-id: your-session-id" \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+  http://localhost:3000/mcp
+```
+
+**Authentication:**
+Set the `x-api-key` header with one of your configured API keys for all requests.
 
 
 ### VS Code Integration
@@ -305,9 +352,17 @@ pnpm run test:coverage
 
 ### Common Issues
 
-**"Transport not found" error in SSE mode:**
-- Ensure the SSE connection is established before sending messages
-- Check that the sessionId is properly passed in requests
+### Common Issues
+
+**"Transport not found" error in SSE/HTTP streams mode:**
+- Ensure the SSE connection is established before sending messages (SSE mode)
+- Check that the sessionId is properly passed in requests (HTTP streams mode)
+- Verify the correct endpoint is being used (`/sse` for SSE, `/mcp` for HTTP streams)
+
+**Session management issues (HTTP streams mode):**
+- Ensure you initialize a session with the `initialize` method before other requests
+- Include the `mcp-session-id` header in all requests after initialization
+- Check that the session hasn't expired or been terminated
 
 **Permission errors:**
 - Verify the API key is correctly set in headers

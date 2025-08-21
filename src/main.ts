@@ -1,9 +1,10 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import express from "express";
 import { z } from "zod";
 import { weatherTool } from "./tools/weather.js";
+import { httpStreamTransportFactory } from "./transports/http-streams.js";
+import { SSETransportFactory } from "./transports/sse.js";
 
 const args = process.argv.slice(2);
 const modeArg = args.find((arg) => arg.startsWith("--mode="));
@@ -11,7 +12,7 @@ if (modeArg) {
 	process.env.MODE = modeArg.split("=")[1];
 }
 
-const mcpServer = new McpServer(
+export const mcpServer = new McpServer(
 	{
 		name: "MCP Template",
 		version: "1.0.0",
@@ -21,13 +22,13 @@ const mcpServer = new McpServer(
 	{
 		instructions:
 			"This is a Model Context Protocol (MCP) server template for Node.js. It provides a basic setup for handling requests and responses using the MCP protocol. You can extend it with your own tools and functionalities.",
-		capabilities: {
-			logging: {
-				level: "info",
-				format: "json",
-				destination: "stdout",
-			},
-		},
+		// capabilities: {
+		// 	logging: {
+		// 		level: "info",
+		// 		format: "json",
+		// 		destination: "console",
+		// 	},
+		// },
 	},
 );
 
@@ -42,7 +43,7 @@ mcpServer.registerTool(
 
 async function main() {
 	const modeResult = z
-		.enum(["stdio", "sse"])
+		.enum(["stdio", "sse", "http-streams"])
 		.safeParse(process.env.MODE || "stdio");
 
 	if (!modeResult.success) {
@@ -74,7 +75,7 @@ async function main() {
 			? process.env.API_KEYS.split(",")
 			: [];
 
-		const transportMap = new Map<string, SSEServerTransport>();
+
 
 		app.use("/health", (_req, res) => {
 			res.status(200).json({ status: "ok" });
@@ -101,49 +102,40 @@ async function main() {
 			next();
 		});
 
-		app.get("/sse", async (req, res) => {
-			const transport = new SSEServerTransport("/messages", res);
-			transportMap.set(transport.sessionId, transport);
-			console.info(
-				`New SSE connection established with sessionId: \x1b[36m${transport.sessionId}\x1b[0m, ip: \x1b[32m${req.ip}\x1b[0m`,
-			);
-			await mcpServer.connect(transport);
-		});
+		if (mode === 'sse') {
+			const { sseRouter } = SSETransportFactory(mcpServer);
+			app.use(sseRouter)
+		}
 
-		app.post("/messages", async (req, res) => {
-			const sessionId = req.query.sessionId as string;
-			if (!sessionId) {
-				console.error("Message received without sessionId");
-				res.status(400).json({ error: "sessionId is required" });
-				return;
-			}
-
-			const transport = transportMap.get(sessionId);
-
-			console.log(
-				`message sessionId: \x1b[36m${sessionId}\x1b[0m - transport: \x1b[33m${transport ? "exists" : "none"}\x1b[0m`,
-				req.body,
-			);
-			if (transport) {
-				await transport.handlePostMessage(req, res, req.body);
-			} else {
-				// create a new transport if not found
-				const newTransport = new SSEServerTransport("/messages", res);
-				transportMap.set(newTransport.sessionId, newTransport);
-
-				console.error(`No transport found for sessionId: ${sessionId}`);
-				res.status(404).json({ error: "Transport not found for sessionId" });
-			}
-		});
+		if (mode === 'http-streams') {
+			const { httpStreamRouter } = httpStreamTransportFactory(mcpServer);
+			app.use(httpStreamRouter);
+		}
 
 		app.use((_req, res) => {
+			console.log(`404 Not Found: ${_req.method} ${_req.url}`);
 			res.status(404).json({ error: "Not Found" });
 		});
 
 		app.listen(port, () => {
+			// check if the port is already in use
+			app.on("error", (err: any) => {
+				if (err.code === "EADDRINUSE") {
+					console.error(
+						`Port ${port} is already in use. Please use a different port.`,
+					);
+					process.exit(1);
+				} else {
+					console.error("Error starting server:", err);
+					process.exit(1);
+				}
+			});
 			console.info("Server is running on port", port);
-			console.info(
+			if (mode === 'sse') console.info(
 				`SSE Endpoint: \x1b[36mhttp://localhost:${port}/sse\x1b[0m with the header \x1b[33m"X-API-Key"\x1b[0m`,
+			);
+			if (mode === 'http-streams') console.info(
+				`HTTP Stream Endpoint: \x1b[36mhttp://localhost:${port}/mcp\x1b[0m with the header \x1b[33m"X-API-Key"\x1b[0m`,
 			);
 		});
 	}

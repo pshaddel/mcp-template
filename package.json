@@ -19,7 +19,7 @@
 	],
 	"dependencies": {
 		"@aws-sdk/client-cognito-identity-provider": "^3.782.0",
-		"@modelcontextprotocol/sdk": "^1.17.0",
+		"@modelcontextprotocol/sdk": "^1.17.3",
 		"express": "^5.1.0",
 		"zod": "^3.24.2"
 	},

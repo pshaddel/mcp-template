@@ -75,8 +75,6 @@ async function main() {
 			? process.env.API_KEYS.split(",")
 			: [];
 
-
-
 		app.use("/health", (_req, res) => {
 			res.status(200).json({ status: "ok" });
 		});
@@ -102,12 +100,12 @@ async function main() {
 			next();
 		});
 
-		if (mode === 'sse') {
+		if (mode === "sse") {
 			const { sseRouter } = SSETransportFactory(mcpServer);
-			app.use(sseRouter)
+			app.use(sseRouter);
 		}
 
-		if (mode === 'http-streams') {
+		if (mode === "http-streams") {
 			const { httpStreamRouter } = httpStreamTransportFactory(mcpServer);
 			app.use(httpStreamRouter);
 		}
@@ -132,12 +130,14 @@ async function main() {
 				}
 			});
 			console.info("Server is running on port", port);
-			if (mode === 'sse') console.info(
-				`SSE Endpoint: \x1b[36mhttp://localhost:${port}/sse\x1b[0m with the header \x1b[33m"X-API-Key"\x1b[0m`,
-			);
-			if (mode === 'http-streams') console.info(
-				`HTTP Stream Endpoint: \x1b[36mhttp://localhost:${port}/mcp\x1b[0m with the header \x1b[33m"X-API-Key"\x1b[0m`,
-			);
+			if (mode === "sse")
+				console.info(
+					`SSE Endpoint: \x1b[36mhttp://localhost:${port}/sse\x1b[0m with the header \x1b[33m"X-API-Key"\x1b[0m`,
+				);
+			if (mode === "http-streams")
+				console.info(
+					`HTTP Stream Endpoint: \x1b[36mhttp://localhost:${port}/mcp\x1b[0m with the header \x1b[33m"X-API-Key"\x1b[0m`,
+				);
 		});
 	}
 }

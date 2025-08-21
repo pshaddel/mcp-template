@@ -77,7 +77,7 @@ export function httpStreamTransportFactory(mcpServer: McpServer) {
 			res.status(200).json({});
 			// await transport.handleRequest(req, res, req.body);
 			return;
-		};
+		}
 		await transport.handleRequest(req, res);
 	};
 
@@ -89,6 +89,6 @@ export function httpStreamTransportFactory(mcpServer: McpServer) {
 
 	return {
 		httpStreamTransportMap: transportMap,
-		httpStreamRouter: router
+		httpStreamRouter: router,
 	};
 }

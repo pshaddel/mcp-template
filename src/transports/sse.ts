@@ -39,8 +39,8 @@ export function SSETransportFactory(mcpServer: McpServer) {
 		}
 	});
 
-    return {
-        sseTransportMap: transportMap,
-        sseRouter: sseRouter,
-    }
+	return {
+		sseTransportMap: transportMap,
+		sseRouter: sseRouter,
+	};
 }

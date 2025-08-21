@@ -91,7 +91,48 @@ npm start
 pnpm start
 ```
 
-## 🔌 Integration
+## � MCP Inspector
+
+The MCP Inspector is a powerful debugging tool that provides a web interface to test and interact with your MCP server tools during development.
+
+### How to run
+
+```bash
+npx @modelcontextprotocol/inspector
+```
+
+This will start the inspector and open it in your browser (typically at `http://localhost:5173`).
+
+### Configuration
+
+The inspector supports different transport modes depending on how your MCP server is running:
+
+#### SSE Configuration
+
+When running your server in SSE mode:
+
+1. **URL:** `http://localhost:3000/sse` (or your configured port)
+2. **Headers:** Add the following header for authentication:
+   - **Header Name:** `x-api-key`
+   - **Header Value:** Your API key from the `.env` file
+
+#### HTTP Streams Configuration
+
+When running your server in HTTP streams mode:
+
+1. **URL:** `http://localhost:3000/mcp` (or your configured port)
+2. **Headers:** Add the following header for authentication:
+   - **Header Name:** `x-api-key`
+   - **Header Value:** Your API key from the `.env` file
+
+### Usage Tips
+
+- Start your MCP server first in either SSE or HTTP streams mode
+- The inspector will automatically detect available tools and display their schemas
+- You can test tools interactively and see real-time responses
+- Use the inspector to validate your tool implementations before integrating with other clients
+
+## �🔌 Integration
 
 ### Claude Desktop Integration
 

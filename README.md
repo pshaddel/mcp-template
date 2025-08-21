@@ -116,6 +116,8 @@ When running your server in SSE mode:
    - **Header Name:** `x-api-key`
    - **Header Value:** Your API key from the `.env` file
 
+<img width="980" height="531" alt="Screenshot 2025-08-21 at 20 57 46" src="https://github.com/user-attachments/assets/f790d1d0-0386-41e1-9a19-b980d28d23e1" />
+
 #### HTTP Streams Configuration
 
 When running your server in HTTP streams mode:
@@ -124,6 +126,7 @@ When running your server in HTTP streams mode:
 2. **Headers:** Add the following header for authentication:
    - **Header Name:** `x-api-key`
    - **Header Value:** Your API key from the `.env` file
+<img width="980" height="531" alt="Screenshot 2025-08-21 at 20 57 26" src="https://github.com/user-attachments/assets/c611a378-d4c8-4600-9c02-15bb350eea49" />
 
 ### Usage Tips
 

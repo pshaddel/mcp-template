@@ -40,10 +40,24 @@ async function main() {
 		.safeParse(process.env.MODE || "stdio");
 
 	if (!modeResult.success) {
-		console.error(
-			"Invalid MODE ...environment variable. Expected 'stdio' or 'sse'.",
-		);
+		if (process.env.MODE !== "stdio") {
+			console.error(
+				"Invalid MODE environment variable. Expected 'stdio', 'sse', or 'http-streams'.",
+			);
+		}
 		process.exit(1);
+	}
+
+	const mode = modeResult.data;
+	const isStdioMode = mode === "stdio";
+
+	// Suppress all console output in stdio mode
+	if (isStdioMode) {
+		console.log = () => { };
+		console.info = () => { };
+		console.warn = () => { };
+		console.error = () => { };
+		console.debug = () => { };
 	}
 
 	const schema = await readFile(
@@ -59,8 +73,6 @@ async function main() {
 
 	await regsiterSchemaTools(parsedSchema, mcpServer);
 
-	const mode = modeResult.data;
-
 	if (mode === "stdio") {
 		const transport = new StdioServerTransport();
 		await mcpServer.connect(transport);
@@ -71,9 +83,11 @@ async function main() {
 			: 3000;
 
 		if (!process.env.API_KEYS) {
-			console.error(
-				"API_KEYS environment variable is not set. Please set it to a comma-separated list of allowed API keys.",
-			);
+			if (!isStdioMode) {
+				console.error(
+					"API_KEYS environment variable is not set. Please set it to a comma-separated list of allowed API keys.",
+				);
+			}
 			process.exit(1);
 		}
 

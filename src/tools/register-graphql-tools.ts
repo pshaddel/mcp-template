@@ -44,8 +44,10 @@ export async function regsiterSchemaTools(
 			},
 		);
 	}
-    console.info(
-        "Registering Tools:",
-        parsedSchema.map((s) => s.name),
-    );
+    if (process.env.MODE !== "stdio") {
+        console.info(
+            "Registering Tools:",
+            parsedSchema.map((s) => s.name),
+        );
+    }
 }

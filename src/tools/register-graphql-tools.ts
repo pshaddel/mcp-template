@@ -1,9 +1,10 @@
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { Tool } from "graphql-mcp-bridge";
 import { queryRunner } from "./run-graphql-query.js";
 
 export async function regsiterSchemaTools(
 	parsedSchema: Tool[],
-	mcpServer: any,
+    mcpServer: McpServer,
 ) {
 	for (const tool of parsedSchema) {
 		mcpServer.registerTool(
@@ -44,7 +45,7 @@ export async function regsiterSchemaTools(
 		);
 	}
     console.info(
-            "Registering Tools:",
-            parsedSchema.map((s) => s.name),
+        "Registering Tools:",
+        parsedSchema.map((s) => s.name),
     );
 }

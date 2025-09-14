@@ -61,7 +61,7 @@ async function main() {
 	}
 
 	const schema = await readFile(
-		"src/schema.graphql",
+		"/Users/pshaddel/Desktop/Projects/mcp-template/src/schema.graphql",
 		"utf-8",
 	);
 	const parsedSchema = await schemaParser(schema, {

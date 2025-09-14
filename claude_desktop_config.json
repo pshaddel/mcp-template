@@ -4,7 +4,7 @@
 			"command": "node",
 			"args": [
 				"--watch",
-				"--env-file=/Users/pshaddel/Desktop/Projects/mcp-template/.env",
+				"--env-file=/Users/pshaddel/Desktop/Projects/mcp-template/claude.env",
 				"/Users/pshaddel/Desktop/Projects/mcp-template/build/main.js"
 			]
 		}

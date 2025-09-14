@@ -1,8 +1,10 @@
+import { readFile } from "node:fs/promises";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import express from "express";
+import { schemaParser } from "graphql-mcp-bridge";
 import { z } from "zod";
-import { weatherTool } from "./tools/weather.js";
+import { regsiterSchemaTools } from "./tools/register-graphql-tools.js";
 import { httpStreamTransportFactory } from "./transports/http-streams.js";
 import { SSETransportFactory } from "./transports/sse.js";
 
@@ -21,7 +23,7 @@ export const mcpServer = new McpServer(
 	},
 	{
 		instructions:
-			"This is a Model Context Protocol (MCP) server template for Node.js. It provides a basic setup for handling requests and responses using the MCP protocol. You can extend it with your own tools and functionalities.",
+			"You are a helpful assistant that helps users interact with a GraphQL API. You can execute queries and mutations against the API based on user requests. Always ensure that your queries are well-formed and that you handle any errors gracefully. Provide clear and concise responses based on the data retrieved from the API.",
 		// capabilities: {
 		// 	logging: {
 		// 		level: "info",
@@ -30,15 +32,6 @@ export const mcpServer = new McpServer(
 		// 	},
 		// },
 	},
-);
-
-mcpServer.registerTool(
-	weatherTool.tool_name,
-	{
-		description: weatherTool.description,
-		inputSchema: weatherTool.inputSchema,
-	},
-	weatherTool.function,
 );
 
 async function main() {
@@ -52,6 +45,19 @@ async function main() {
 		);
 		process.exit(1);
 	}
+
+	const schema = await readFile(
+		"src/schema.graphql",
+		"utf-8",
+	);
+	const parsedSchema = await schemaParser(schema, {
+		query: true,
+		mutation: true,
+		subscription: true,
+		subscriptionPrefix: "listen_to_"
+	});
+
+	await regsiterSchemaTools(parsedSchema, mcpServer);
 
 	const mode = modeResult.data;
 

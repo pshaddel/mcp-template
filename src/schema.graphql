@@ -635,6 +635,29 @@ input AddAuthorInput {
   reputation: Float
 }
 
+"""
+Retrieves user information by their unique identifier.
+
+This query fetches detailed user data including personal information,
+account settings, and associated metadata for a specific user ID.
+
+Arguments:
+- id: The unique identifier of the user to retrieve
+
+Returns:
+- User object containing all available user information
+- Returns null if no user is found with the provided ID
+
+Example usage:
+query GetUser($userId: ID!) {
+  user(id: $userId) {
+    id
+    name
+    email
+    createdAt
+  }
+}
+"""
 type User {
   username: String!
 
@@ -728,6 +751,7 @@ type PointList {
 type Query {
   getTask(id: ID!): Task
 
+  """Retrieves a list of tasks based on specified filtering, ordering, and pagination criteria."""
   queryTask(
     filter: TaskFilter
     order: TaskOrder
